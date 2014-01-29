@@ -44,6 +44,8 @@ function addMessage(msg) {
     messages.append(msgHtml);
 
     $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
+
+    $.jStorage.set("history", $("#messages").html());
 }
 
 
@@ -89,5 +91,7 @@ $(function(){
 
     chatList();
     getChatMembers("t9WPRgM77Q");
+
+    $("#messages").html($.jStorage.get("history"));
 
 });
