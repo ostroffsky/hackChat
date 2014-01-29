@@ -92,6 +92,7 @@ $(function(){
     chatList();
     getChatMembers("t9WPRgM77Q");
 
-    $("#messages").html($.jStorage.get("history"));
+    var history = $("<div class='history'>" + $.jStorage.get("history") + "</div>");
+    $("#messages").html(history);
 
 });

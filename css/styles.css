@@ -175,6 +175,7 @@ body, html {
 .msg.__blue { color: #00107b; }
 .msg.__green { color: #209100; }
 .msg.__red { color: #cc0000; }
+.history {opacity: .5; }
 /* /msg */
 
 /* posting form */
