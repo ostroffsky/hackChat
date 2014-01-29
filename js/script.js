@@ -82,13 +82,16 @@ function checkLogin(user) {
     });
 }
 
-function login(username, password) {
-    Parse.Cloud.run('login', {'username':username,'password':password}, {
+function login(user, password) {
+    Parse.Cloud.run('login', {'username':user,'password':password}, {
         success: function(result) {
             //console.log(result);
 
             currentPurpose = PURPOSE.MESSAGE;
             textarea.attr("placeholder", RES.MESSAGE);
+
+            // set cookie
+            $.cookie('userId', result.id);
         },
         error: function(error) {
             addSystemMessage('Error: ' + error.code + ' ' + error.message);
@@ -139,10 +142,14 @@ textarea.on("keypress", function(e){
 });
 
 $(function(){
+    var cookieId = $.cookie('userId');
 
-    if(!userId) {
+    if(!userId && !cookieId) {
         currentPurpose = PURPOSE.LOGIN;
         textarea.attr("placeholder", RES.LOGIN);
+    } else if (cookieId) {
+        userId = cookieId;
+        currentPurpose = PURPOSE.MESSAGE;
     }
 
 });
