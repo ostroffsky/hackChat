@@ -3,30 +3,30 @@ Parse.initialize("PXK892hE80vhCiPNqv9xM4dm7g5oVXZ2mfgItQi7","7VJuR3Tawrs4hiIcXZC
 function login(username, password) {
     Parse.Cloud.run('login', {'username':username,'password':password}, {
         success: function(result) {
-            alert(result);
+            console.log(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            console.log('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
 function check(username) {
     Parse.Cloud.run('findContact', {'username':username}, {
         success: function(result) {
-            alert(result);
+            console.log(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            console.log('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
 function register(username, password) {
     Parse.Cloud.run('registration', {'username':username,'password':password}, {
         success: function(result) {
-            alert(result);
+            console.log(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            console.log('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
@@ -36,10 +36,10 @@ function addContact() {
 
     Parse.Cloud.run('addContact', {'username':username,'me':me}, {
         success: function(result) {
-            alert(result);
+            console.log(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            console.log('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
@@ -48,10 +48,10 @@ function createChat() {
 
     Parse.Cloud.run('createChat', {'chatname':name}, {
         success: function(result) {
-            alert(result);
+            console.log(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            console.log('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
@@ -60,12 +60,12 @@ function createMsg() {
     var msg = document.getElementById('text').value;
     var chat = document.getElementById('password').value;
 
-    Parse.Cloud.run('addMsg', {'chatname':chat, 'msg': msg, 'userId': userId}, {
+    Parse.Cloud.run('addMsg', {'chatId':chat, 'msg': msg, 'userId': userId}, {
         success: function(result) {
-            alert(result);
+            console.log(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            console.log('Error: ' + error.code + ' ' + error.message);
         }
     });
 }

@@ -172,6 +172,7 @@ body, html {
 .msg.__magenta { color: #9A169A; }
 .msg.__blue { color: #00107b; }
 .msg.__green { color: #209100; }
+.msg.__red { color: #cc0000; }
 /* /msg */
 
 /* posting form */
