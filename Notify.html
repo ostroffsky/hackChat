@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- saved from url=(0018)http://myhello.tk/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Hello</title>
+<meta charset="UTF-8">
+<script language="javascript" type="text/javascript">
+
+var NotificationIsSupported = !!(window.Notification /* W3C Specification */ || window.webkitNotifications /* old WebKit Browsers */ ||navigator.mozNotification /* Firefox for Android and Firefox OS */);
+
+if(NotificationIsSupported) {
+	console.log("Notifications are supported");
+} else {
+	console.log("Notifications aren't supported");
+}
+
+function notification_requestPermission() { 
+	if (window.webkitNotifications && window.webkitNotifications.checkPermission) { 
+		window.webkitNotifications.requestPermission(); 
+	} else if (window.Notification && window.Notification.requestPermission) { 
+		window.Notification.requestPermission(); 
+	} 
+}
+
+var PERMISSION_DEFAULT = "default", 
+	PERMISSION_GRANTED = "granted", 
+	PERMISSION_DENIED = "denied", 
+	PERMISSION = [PERMISSION_GRANTED, PERMISSION_DEFAULT, PERMISSION_DENIED]; 
+
+function notification_checkPermission() { 
+	var permission; 
+	if (window.webkitNotifications && window.webkitNotifications.checkPermission) {
+		permission = PERMISSION[window.webkitNotifications.checkPermission()]; 
+	} else if (navigator.mozNotification) { 
+		permission = PERMISSION_GRANTED; 
+	} else if (window.Notification && window.Notification.permission) {
+		permission = window.Notification.permission; 
+	} 
+	return permission; 
+}
+
+function notification_post (title, options) { 
+	var notification; 
+	if (notification_checkPermission() === PERMISSION_GRANTED) { 
+		if (window.Notification) { 
+			notification = new window.Notification(title, { 
+				icon: options.icon || "", 
+				body: options.body || "", 
+				tag: options.tag || ""
+			});
+		} else if (window.webkitNotifications) { 
+			notification = window.webkitNotifications.createNotification(options.icon, title, options.body); 
+			notification.show(); 
+		} else if (navigator.mozNotification) { 
+			notification = navigator.mozNotification.createNotification(title, options.body, options.icon); 
+			notification.show(); 
+		} 
+		return notification; 
+	} else {
+		notification_requestPermission();
+	}
+} 
+
+</script>
+<style id="clearly_highlighting_css" type="text/css">/* selection */ html.clearly_highlighting_enabled ::-moz-selection { background: rgba(246, 238, 150, 0.99); } html.clearly_highlighting_enabled ::selection { background: rgba(246, 238, 150, 0.99); } /* cursor */ html.clearly_highlighting_enabled {    /* cursor and hot-spot position -- requires a default cursor, after the URL one */    cursor: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--cursor.png") 14 16, text; } /* highlight tag */ em.clearly_highlight_element {    font-style: inherit !important; font-weight: inherit !important;    background-image: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--yellow.png");    background-repeat: repeat-x; background-position: top left; background-size: 100% 100%; } /* the delete-buttons are positioned relative to this */ em.clearly_highlight_element.clearly_highlight_first { position: relative; } /* delete buttons */ em.clearly_highlight_element a.clearly_highlight_delete_element {    display: none; cursor: pointer;    padding: 0; margin: 0; line-height: 0;    position: absolute; width: 34px; height: 34px; left: -17px; top: -17px;    background-image: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--delete-sprite.png"); background-repeat: no-repeat; background-position: 0px 0px; } em.clearly_highlight_element a.clearly_highlight_delete_element:hover { background-position: -34px 0px; } /* retina */ @media (min--moz-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {    em.clearly_highlight_element { background-image: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--yellow@2x.png"); }    em.clearly_highlight_element a.clearly_highlight_delete_element { background-image: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--delete-sprite@2x.png"); background-size: 68px 34px; } } </style><style>[touch-action="none"]{ -ms-touch-action: none; touch-action: none; }[touch-action="pan-x"]{ -ms-touch-action: pan-x; touch-action: pan-x; }[touch-action="pan-y"]{ -ms-touch-action: pan-y; touch-action: pan-y; }[touch-action="scroll"],[touch-action="pan-x pan-y"],[touch-action="pan-y pan-x"]{ -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; }</style></head>
+<body>
+	<button id="button" onclick="notification_post(&quot;Alexander Orlov&quot;, { 
+		body: &quot;Привет,ботан! Не хочешь научиться технике православного боя?&quot;,
+		icon: &quot;http://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1/c61.61.767.767/s320x320/64104_578189855565852_2040838659_n.jpg&quot;, 
+		tag: &quot;tag&quot;,
+        dir: &quot;ltr&quot;,
+        lang: &quot;en-US&quot;
+	})">say "Hello"</button>
+
+</body></html>

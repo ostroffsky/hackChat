@@ -31,6 +31,22 @@ function joinChat(chatId, id) {
     });
 }
 
+function chatList() {
+    Parse.Cloud.run('chatList', {}, {
+        success: function(result) {
+            for (var i = 0; i < result.length; i++) {
+                var chat = result[i].attributes.name;
+
+                var html = $("<li class='channels_i'><a href='#' class='channels_a __channel'>" + chat + "</a></li>");
+                $(".channels_lst").append(html);
+            }
+        },
+        error: function(error) {
+            alert('Error: ' + error.code + ' ' + error.message);
+        }
+    });
+}
+
 function sendMessage(msg) {
     // send msg
     Parse.Cloud.run('addMsg', {
@@ -98,6 +114,17 @@ function register(user, password) {
         },
         error: function(error) {
             addSystemMessage('Error: ' + error.code + ' ' + error.message);
+        }
+    });
+}
+
+function createChat(chatName) {
+    Parse.Cloud.run('createChat', {'chatname':chatName}, {
+        success: function(result) {
+            //alert(result);
+        },
+        error: function(error) {
+            alert('Error: ' + error.code + ' ' + error.message);
         }
     });
 }

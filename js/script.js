@@ -87,7 +87,7 @@ $(function(){
         joinChat("t9WPRgM77Q", userId);
     }
 
-
+    chatList();
     getChatMembers("t9WPRgM77Q");
 
 });
