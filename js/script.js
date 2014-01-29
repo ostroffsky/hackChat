@@ -46,74 +46,7 @@ function addMessage(msg) {
     $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
 }
 
-function sendMessage(msg) {
-    // send msg
-    Parse.Cloud.run('addMsg', {
-        'chatId': "t9WPRgM77Q",
-        'msg':  msg,
-        'userId': userId
-    }, {
-        success: function(result) {
-            //console.log(result);
-        },
-        error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
-        }
-    });
-}
 
-function checkLogin(user) {
-    username = user;
-
-    Parse.Cloud.run('findContact', {'username':user}, {
-        success: function(result) {
-            //console.log(result.id);
-            userId = result.id;
-
-            currentPurpose = PURPOSE.PASSWORD;
-            textarea.attr("placeholder", RES.PASSWORD);
-        },
-        error: function(error) {
-            addSystemMessage("Привет, " + user + "! Придумай себе пароль");
-
-            currentPurpose = PURPOSE.REGISTER;
-            textarea.attr("placeholder", RES.PASSWORD);
-        }
-    });
-}
-
-function login(user, password) {
-    Parse.Cloud.run('login', {'username':user,'password':password}, {
-        success: function(result) {
-            //console.log(result);
-
-            currentPurpose = PURPOSE.MESSAGE;
-            textarea.attr("placeholder", RES.MESSAGE);
-
-            // set cookie
-            $.cookie('userId', result.id);
-        },
-        error: function(error) {
-            addSystemMessage('Error: ' + error.code + ' ' + error.message);
-        }
-    });
-}
-
-function register(user, password) {
-    console.log(user, password);
-    Parse.Cloud.run('registration', {'username':user,'password':password}, {
-        success: function(result) {
-            //console.log(result);
-            userId = result.id;
-
-            currentPurpose = PURPOSE.MESSAGE;
-            textarea.attr("placeholder", RES.MESSAGE);
-        },
-        error: function(error) {
-            addSystemMessage('Error: ' + error.code + ' ' + error.message);
-        }
-    });
-}
 
 pubnub.subscribe({
     channel: 't9WPRgM77Q',
@@ -150,6 +83,11 @@ $(function(){
     } else if (cookieId) {
         userId = cookieId;
         currentPurpose = PURPOSE.MESSAGE;
+
+        joinChat("t9WPRgM77Q", userId);
     }
+
+
+    getChatMembers("t9WPRgM77Q");
 
 });
