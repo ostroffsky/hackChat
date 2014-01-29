@@ -34,10 +34,27 @@ function addSystemMessage(msg) {
 
     $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
 
+    collectHistory();
+
 }
 function addMessage(msg) {
-    var msgHtml = $("<div class='msg'></div>");
-    msgHtml.text("<" + msg.sender + "> " + msg.text);
+    if(msg.sender != username) {
+        var msgHtml = $("<div class='msg'></div>");
+        msgHtml.text("<" + msg.sender + "> " + msg.text);
+
+        var messages = $("#messages");
+
+        messages.append(msgHtml);
+
+        $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
+
+        collectHistory();
+    }
+}
+
+function addMyMessage(msg) {
+    var msgHtml = $("<div class='msg __green'></div>");
+    msgHtml.text("<" + username + "> " + msg);
 
     var messages = $("#messages");
 
@@ -45,7 +62,12 @@ function addMessage(msg) {
 
     $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
 
-    $.jStorage.set("history", $("#messages").html());
+    collectHistory();
+}
+
+function collectHistory() {
+    var history = $("#messages").html();
+    $.jStorage.set("history", history);
 }
 
 
@@ -78,12 +100,14 @@ textarea.on("keypress", function(e){
 
 $(function(){
     var cookieId = $.cookie('userId');
+    var cookieUsername = $.cookie('username');
 
     if(!userId && !cookieId) {
         currentPurpose = PURPOSE.LOGIN;
         textarea.attr("placeholder", RES.LOGIN);
     } else if (cookieId) {
         userId = cookieId;
+        username = cookieUsername;
         currentPurpose = PURPOSE.MESSAGE;
 
         joinChat("t9WPRgM77Q", userId);
@@ -92,7 +116,13 @@ $(function(){
     chatList();
     getChatMembers("t9WPRgM77Q");
 
-    var history = $("<div class='history'>" + $.jStorage.get("history") + "</div>");
+    var storedHistory = $($.jStorage.get("history"));
+    storedHistory.find(".history .history .history").remove();
+    var history = $("<div class='history'></div>");
+    history.append(storedHistory);
+
     $("#messages").html(history);
+
+    $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
 
 });

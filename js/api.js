@@ -48,6 +48,9 @@ function chatList() {
 }
 
 function sendMessage(msg) {
+    // draw msg
+    addMyMessage(msg);
+
     // send msg
     Parse.Cloud.run('addMsg', {
         'chatId': "t9WPRgM77Q",
@@ -70,6 +73,7 @@ function checkLogin(user) {
         success: function(result) {
             //console.log(result.id);
             userId = result.id;
+            username = user;
 
             currentPurpose = PURPOSE.PASSWORD;
             textarea.attr("placeholder", RES.PASSWORD);
@@ -93,6 +97,7 @@ function login(user, password) {
 
             // set cookie
             $.cookie('userId', result.id);
+            $.cookie('username', user);
 
             // join chat
             joinChat("t9WPRgM77Q", userId);
@@ -108,6 +113,7 @@ function register(user, password) {
         success: function(result) {
             //console.log(result);
             userId = result.id;
+            username = user;
 
             currentPurpose = PURPOSE.MESSAGE;
             textarea.attr("placeholder", RES.MESSAGE);
