@@ -23,6 +23,12 @@ var pubnub = PUBNUB.init({
 
 Parse.initialize("PXK892hE80vhCiPNqv9xM4dm7g5oVXZ2mfgItQi7","7VJuR3Tawrs4hiIcXZCcNYF8iVhmPHlwIj6FZEIK");
 
+if (typeof String.prototype.startsWith != 'function') {
+    // see below for better implementation!
+    String.prototype.startsWith = function (str){
+        return this.indexOf(str) == 0;
+    };
+}
 
 function addSystemMessage(msg) {
     var msgHtml = $("<div class='msg __system __red'></div>");
@@ -40,7 +46,17 @@ function addSystemMessage(msg) {
 function addMessage(msg) {
     if(msg.sender != username) {
         var msgHtml = $("<div class='msg'></div>");
-        msgHtml.text("<" + msg.sender + "> " + msg.text);
+
+        var msgTxt = msg.text;
+        if (msgTxt.startsWith("[sticker_")) {
+            var id = msgTxt.split("[sticker_")[1].split("]")[0];
+            msgTxt = $("<img src='img/stickers/stick_1_" + id + ".png'/>");
+            msgHtml.text("<" + msg.sender + "> ").append(msgTxt);
+
+        } else {
+            msgHtml.text("<" + msg.sender + "> " + msgTxt);
+        }
+
 
         var messages = $("#messages");
 
