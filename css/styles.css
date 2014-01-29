@@ -167,6 +167,7 @@ body, html {
 /* msg */
 .msg {
     word-break: break-word;
+    white-space:pre;
 }
 .msg.__system:before { content: "* "; }
 .msg.__magenta { color: #9A169A; }

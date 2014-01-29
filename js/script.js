@@ -74,7 +74,7 @@ function checkLogin(user) {
             textarea.attr("placeholder", RES.PASSWORD);
         },
         error: function(error) {
-            addSystemMessage("Привет, " + user + "! Чтобы придумай себе пароль");
+            addSystemMessage("Привет, " + user + "! Придумай себе пароль");
 
             currentPurpose = PURPOSE.REGISTER;
             textarea.attr("placeholder", RES.PASSWORD);
