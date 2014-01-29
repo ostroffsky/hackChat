@@ -1,0 +1,222 @@
+/* common */
+body {
+    padding: 0;
+    margin: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+body, html {
+    height: 100%;
+}
+/* /common */
+
+/* font */
+@font-face {
+    font-family: Fixedsys;
+    src: url(../font/FSEX300.ttf);
+}
+/* /font */
+
+/* toolbar */
+.toolbar {
+    height: 39px;
+    width: 100%;
+    line-height: 39px;
+
+    background: #f0f0f0 url(../img/toolbar_bg.png) repeat-x;
+    border-bottom: 1px solid #7a7a7a;
+}
+.toolbar_separator {
+    height: 39px;
+    width: 0;
+    display: inline-block;
+
+    border-left: 1px solid rgba(0, 0, 0, .1);
+    border-right: 1px solid rgba(255, 255, 255, .5);
+}
+.toolbar_btn {
+    height: 39px;
+    width: 39px;
+    display: inline-block;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+
+    opacity: 1;
+    font-size: 0;
+
+    -webkit-transition: opacity .1s;
+       -moz-transition: opacity .1s;
+            transition: opacity .1s;
+}
+.toolbar_btn:hover {
+    opacity: .7;
+}
+
+.__status { background-image: url(../img/ic/ico_status.png); }
+.__settings { background-image: url(../img/ic/ico_settings.png); }
+.__colorSettings { background-image: url(../img/ic/ico_color_settings.png); }
+.__list { background-image: url(../img/ic/ico_list.png); }
+.__favs { background-image: url(../img/ic/ico_favs.png); }
+.__bookmarks { background-image: url(../img/ic/ico_favs2.png); }
+.__search { background-image: url(../img/ic/ico_search.png); }
+/* /toolbar */
+
+/* container */
+.chat_container {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 25px;
+
+    /* flexbox setup */
+    display: -webkit-flex;
+    -webkit-flex-direction: row;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.chat_messages {
+    -webkit-flex: auto;
+    flex: auto;
+    overflow: auto;
+    position: relative;
+    height: 100%;
+
+    font-family: Fixedsys;
+    border-right: 1px solid #cfcfcf;
+}
+
+.chat_members {
+    width: 150px;
+    font-family: Fixedsys;
+}
+.chat_chanels {
+    width: 150px;
+    background-color: #f0f0f0;
+}
+.messages {
+    height: 100%;
+}
+.messages.__login {
+    position: absolute;
+    top: 0;
+}
+.messages.__off {
+    opacity: 0;
+}
+.messages_cell {
+    vertical-align: bottom;
+}
+/* /container */
+
+
+/* members */
+.members_lst {
+    list-style-type: none;
+    padding: 0;
+    margin: 5px;
+}
+.members_i {}
+
+.members_a {
+    text-decoration: none;
+    color: #000;
+    padding: 2px 4px;
+    display: inline-block;
+}
+
+.members_a:hover {
+    text-decoration: none;
+    background-color: #dcdcdc;
+}
+
+/* /members */
+
+/* channels */
+.channels_lst {
+    list-style-type: none;
+    margin: 5px;
+    padding: 0;
+}
+.channels_i {
+    padding: 4px 6px;
+}
+.channels_i.__active {
+    border: 1px solid #dcdcdc;
+    background-color: #fff;
+}
+.channels_a {
+    text-decoration: none;
+    color: #666;
+    font-size: 13px;
+    padding: 1px 0 1px 24px;
+    background-repeat: no-repeat;
+}
+.channels_a.__status { background-image: url(../img/ic/ico_w_status.png); }
+.channels_a.__private { background-image: url(../img/ic/ico_w_privat.png); }
+.channels_a.__channel { background-image: url(../img/ic/ico_w_channel.png); }
+.channels_i.__red .channels_a {color: #cc0000;}
+.channels_i.__red .channels_a.__channel {background-image: url(../img/ic/ico_w_channel_a.png);}
+.channels_i.__red .channels_a.__private {background-image: url(../img/ic/ico_w_privat_a.png);}
+/* /channels */
+
+/* msg */
+.msg {
+    word-break: break-word;
+}
+.msg.__system:before { content: "* "; }
+.msg.__magenta { color: #9A169A; }
+.msg.__blue { color: #00107b; }
+.msg.__green { color: #209100; }
+/* /msg */
+
+/* posting form */
+.chat_posting_form {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 26px;
+    border-top: 1px solid #7a7a7a;
+    background-color: #fff;
+}
+.chat_posting_form_textarea {
+    border: none;
+    margin: 0 -8px 0 0;
+    padding: 4px 10px;
+    height: 15px;
+    width: 90%;
+    resize: none;
+    outline: none;
+    overflow: hidden;
+
+    font-family: Fixedsys;
+    font-size: 16px;
+}
+.chat_posting_form_btn {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(../img/ic/file.png) no-repeat;
+    overflow: hidden;
+    font-size: 0;
+    position: absolute;
+    right: 10px;
+    top: 4px;
+}
+/* /posting form */
+
+/* login */
+.__animated {
+    -webkit-transition: -webkit-transform .3s, -webkit-filter .3s, opacity .3s;
+}
+.__disabled {
+    -webkit-filter: blur(2px);
+    -webkit-transform: scale(.9);
+    opacity: .5;
+}
+/* /login */

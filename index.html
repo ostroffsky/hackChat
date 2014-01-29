@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+    <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+
+<div class="toolbar">
+    <a href="#" class="toolbar_btn __status" title="Status">Status</a>
+    <span class="toolbar_separator"></span>
+    <a href="#" class="toolbar_btn __settings"  title="Settings">Settings</a>
+    <a href="#" class="toolbar_btn __colorSettings" title="Color Settings">Color settings</a>
+    <span class="toolbar_separator"></span>
+    <a href="#" class="toolbar_btn __list" title="List">List</a>
+    <a href="#" class="toolbar_btn __favs" title="Favs">Favs</a>
+    <a href="#" class="toolbar_btn __bookmarks" title="Bookmarks">Bookmarks</a>
+    <a href="#" class="toolbar_btn __search" title="Search">Search</a>
+</div>
+
+<div class="chat_container">
+    <div class="chat_column chat_messages">
+        <table class="messages">
+            <tr>
+                <td class="messages_cell __animated" id="messages">
+
+                    <div class="msg __system __green">Now talking in #Riga</div>
+                    <div class="msg __system __green">Topic is "WTF?!"</div>
+                    <div class="msg __system __green">Set by AlexandrOrlov on Mon 23 13:32:43</div>
+
+                    <div class="msg">[12:10:32] &lt;FromHell&gt; Зацените мою фотку</div>
+                    <div class="msg">[12:10:32] &lt;Orlov&gt; Привет</div>
+
+                    <div class="msg __system __blue">Puk-puk has left the chat (Vsem poka)</div>
+                    <div class="msg __system __magenta">Kate slaps _vasja around a bit with a big trout</div>
+
+                    <div class="msg">[12:10:32] &lt;_vasya&gt; Ну даете</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="chat_column chat_members">
+        <ul class="members_lst">
+            <li class="members_i"><a href="#" class="members_a">@orlov</a></li>
+            <li class="members_i"><a href="#" class="members_a">@_vasya</a></li>
+            <li class="members_i"><a href="#" class="members_a">@ostroffsky</a></li>
+            <li class="members_i"><a href="#" class="members_a">@juris</a></li>
+            <li class="members_i"><a href="#" class="members_a">@operatino</a></li>
+            <li class="members_i"><a href="#" class="members_a">@chupa</a></li>
+        </ul>
+    </div>
+    <div class="chat_column chat_chanels">
+        <ul class="channels_lst">
+            <li class="channels_i"><a href="#" class="channels_a __status">Home</a></li>
+            <li class="channels_i"><a href="#" class="channels_a __channel">#Riga</a></li>
+            <li class="channels_i"><a href="#" class="channels_a __private">Igor</a></li>
+            <li class="channels_i __active"><a href="#" class="channels_a __private">Lexa</a></li>
+            <li class="channels_i __red"><a href="#" class="channels_a __private">Ivan</a></li>
+        </ul>
+
+    </div>
+</div>
+
+<div class="chat_posting_form">
+    <textarea class="chat_posting_form_textarea" placeholder="Введите сообщение" autofocus="true" id="textarea"></textarea>
+    <a href="#" class="chat_posting_form_btn">Прикрепить файл</a>
+</div>
+
+<script src="js/script.js"></script>
+
+<script src='http://172.16.37.198:3000/socket.io/socket.io.js'></script>
+<script src='http://172.16.37.198:3001/browser-sync-client.min.js'></script>
+
+</body>
+</html>

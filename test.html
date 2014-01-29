@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MyIRC</title>
+    <script src="js/parse.js"></script>
+    <script src="js/start.js"></script>
+</head>
+<body>
+
+        <script>
+            function doLogin() {
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+                login(username, password);
+            }
+
+            function checkUser(){
+                var username = document.getElementById('username').value;
+                check(username);
+            }
+
+            function registerUser(){
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+                register(username, password);
+            }
+        </script>
+        <input type="text" value="username" id="username"/>
+        <input type="text" value="text" id="text" />
+        <input type="text" value="password" id="password" />
+        <input type="button" value="Login" onclick="doLogin()">
+        <input type="button" value="Check" onclick="checkUser()">
+        <input type="button" value="Register" onclick="registerUser()">
+        <input type="button" value="AddToContacts" onclick="addContact()">
+        <input type="button" value="createChat" onclick="createChat()">
+        <input type="button" value="createMsg" onclick="createMsg()">
+
+</body>
+</html>
