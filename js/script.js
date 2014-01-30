@@ -188,8 +188,6 @@ $(".channels_lst").on("click", ".channels_i", function(e) {
         currentPurpose = PURPOSE.PRIVATE;
 
         $("#chats tr").append("<td class='messages_cell __active' data-id='private' data-chat='noo'></td>");
-    } else {
-        currentPurpose = PURPOSE.MESSAGE;
     }
 
     $(this).find(".channels_a").removeClass("__new");
