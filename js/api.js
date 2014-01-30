@@ -13,7 +13,7 @@ function getChatMembers(chatId) {
             for (var i = 0; i < result.length; i++) {
                 var name = result[i].attributes.name;
 
-                var html = $("<li class='members_i'><a href='#' class='members_a'>@" + name + "</a></li>");
+                var html = $("<li class='members_i'><a href='#' class='members_a'>" + name + "</a></li>");
                 container.append(html)
 
                 $(".chat_members").append(container);
