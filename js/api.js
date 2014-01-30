@@ -18,7 +18,12 @@ function getChatMembers(chatId) {
 
                 $(".chat_members").append(container);
 
-                $(".channels_lst .channels_i:first").trigger("click");
+                //$(".channels_lst .channels_i:first").trigger("click");
+                $(".chat_members").find(".members_lst:first").addClass("__active");
+                $("#chats").find(".messages_cell:first").addClass("__active");
+                $(".channels_lst").find(".channels_i:first").addClass("__active");
+                $(".chat_messages").scrollTop($(".chat_messages")[0].scrollHeight);
+                textarea.trigger("focus");
             }
         },
         error: function(error) {

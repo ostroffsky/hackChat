@@ -62,7 +62,7 @@ function addMessage(msg) {
             if(msg.user == username) {
                 notification_post(msg.user, {
                     body: "Вас упоминули в чате",
-                    icon: "http://myhello.tk/img/pic/avatar_" + Math.floor(Math.random() * 67) + 1 + ".png",
+                    icon: "http://myhello.tk/img/pic/avatar_" + Math.floor(Math.random()*(68-1+1)+1) + ".png",
                     tag: "tag",
                     dir: "ltr",
                     lang: "en-US"
@@ -229,9 +229,10 @@ $(".channels_lst").on("click", ".channels_i", function(e) {
 
     if ($(this).attr("data-type") == "private") {
         currentPurpose = PURPOSE.PRIVATE;
+
         var id = "chat_" + $(this).attr("id");
         if(!document.getElementById(id)){
-            var newPc = $("<td class='messages_cell' id='"+id+"'></td>");
+            var newPc = $("<td class='messages_cell' id='"+id+"' data-id='"+ $(this).attr("id") +"'></td>");
             $("#chats tr").append(newPc);
         }
 
@@ -242,6 +243,8 @@ $(".channels_lst").on("click", ".channels_i", function(e) {
         members = $(".chat_members .members_lst");
         members.removeClass("__active");
     } else {
+        currentPurpose = PURPOSE.MESSAGE;
+
         var name = $(this).find(".channels_a").text();
         chat = $("#chats").find(".messages_cell[data-chat=" + name + "]");
 
@@ -275,6 +278,6 @@ $(".chat_members")
             var name = $(this).text();
             var pc = document.getElementById("pc_" + name);
             if(!pc){
-                $(".channels_lst").append("<li class='channels_i' id='pc_"+name+"' data-type='private'><a href='#' class='channels_a __private' data-name='" + name + "'>" + name + "</a></li>");
+                $(".channels_lst").append("<li class='channels_i' id='pc_"+name+"' data-type='private'><a href='#' data-id='pc_"+name+"' class='channels_a __private' data-name='" + name + "'>" + name + "</a></li>");
             }
         });
