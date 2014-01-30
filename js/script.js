@@ -15,7 +15,8 @@ var PURPOSE = {
     LOGIN: "login",
     PASSWORD: "password",
     REGISTER: "register",
-    MESSAGE: "message"
+    MESSAGE: "message",
+    PRIVATE: "private"
 };
 
 var pubnub = PUBNUB.init({
@@ -144,6 +145,8 @@ textarea.on("keypress", function(e){
             login(username, value);
         } else if (currentPurpose == PURPOSE.REGISTER) {
             register(username, value);
+        } else if (currentPurpose == PURPOSE.PRIVATE) {
+            sendPrivateMessage(username, value);
         }
 
         // clear textarea
@@ -162,6 +165,14 @@ $(function(){
         userId = cookieId;
         username = cookieUsername;
         currentPurpose = PURPOSE.MESSAGE;
+
+        pubnub.subscribe({
+            channel: userId + "home",
+            message: function(m){
+                //console.log(m);
+            }
+        });
+
     }
 
     chatList();
@@ -172,6 +183,15 @@ $(function(){
 
 $(".channels_lst").on("click", ".channels_i", function(e) {
     e.preventDefault();
+
+    if ($(this).attr("data-type") == "private") {
+        currentPurpose = PURPOSE.PRIVATE;
+
+        $("#chats tr").append("<td class='messages_cell __active' data-id='private' data-chat='noo'></td>");
+    } else {
+        currentPurpose = PURPOSE.MESSAGE;
+    }
+
     $(this).find(".channels_a").removeClass("__new");
     var name = $(this).find(".channels_a").text();
 
@@ -192,3 +212,11 @@ $(".channels_lst").on("click", ".channels_i", function(e) {
 
     textarea.trigger("focus");
 });
+
+$(".chat_members")
+        .on("click", ".members_a", function (e) {
+            e.preventDefault();
+
+            var name = $(this).text();
+            $(".channels_lst").append("<li class='channels_i' data-type='private'><a href='#' class='channels_a __private' data-name='" + name + "'>" + name + "</a></li>");
+        });
