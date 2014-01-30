@@ -44,8 +44,12 @@ function addSystemMessage(msg) {
     collectHistory();
 
 }
+
 function addMessage(msg) {
     var targetChatId = msg.chat;
+    var now = new Date();
+    var time = $.format.parseDate(now);
+    var timeString = "[" + time.time.time + "]";
 
     if(msg.sender != username) {
         var msgHtml = $("<div class='msg'></div>");
@@ -54,10 +58,10 @@ function addMessage(msg) {
         if (msgTxt.startsWith("[sticker_")) {
             var id = msgTxt.split("[sticker_")[1].split("]")[0];
             msgTxt = $("<img src='img/stickers/stick_1_" + id + ".png'/>");
-            msgHtml.text("<" + msg.sender + "> ").append(msgTxt);
+            msgHtml.text(timeString + " <" + msg.sender + "> ").append(msgTxt);
 
         } else {
-            msgHtml.text("<" + msg.sender + "> " + msgTxt);
+            msgHtml.text(timeString + " <" + msg.sender + "> " + msgTxt);
         }
 
 
@@ -72,8 +76,13 @@ function addMessage(msg) {
 }
 
 function addMyMessage(msg) {
+    var targetChatId = msg.chat;
+    var now = new Date();
+    var time = $.format.parseDate(now);
+    var timeString = "[" + time.time.time + "]";
+
     var msgHtml = $("<div class='msg __green'></div>");
-    msgHtml.text("<" + username + "> " + msg);
+    msgHtml.text(timeString + " <" + username + "> " + msg);
 
     var messages = $("#chats").find(".messages_cell[data-id=" + activeChatId + "]");
 
