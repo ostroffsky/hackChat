@@ -1,6 +1,7 @@
 var userId;
 var username;
 var currentPurpose;
+var currentPrivate;
 var activeChatId;
 var chatLoaded = false;
 var textarea = $("#textarea");
@@ -177,9 +178,9 @@ textarea.on("keypress", function(e){
         } else if (currentPurpose == PURPOSE.REGISTER) {
             register(username, value);
         } else if (currentPurpose == PURPOSE.PRIVATE) {
-            sendPrivateMessage(username, value, {
+            sendPrivateMessage(currentPrivate, value, {
                 success: function(chat){
-                    $(".messages_cell.__active").attr("data-chat", chat.objectId);
+                    //$(".messages_cell.__active").attr("data-chat", chat.objectId);
                 }
             });
         }
@@ -204,7 +205,11 @@ $(function(){
         pubnub.subscribe({
             channel: userId + "home",
             message: function(m){
-                //console.log(m);
+                if (m.type) {
+                    if(m.type == 1) {
+                        addChat(m.user, m.chat);
+                    }
+                }
             }
         });
 
@@ -215,6 +220,10 @@ $(function(){
     $(".chat_messages").scrollTop($(".chat_messages")[0].scrollHeight);
 
 });
+
+function addChat (u, ch) {
+    $(".channels_lst").append("<li class='channels_i' id='pc_"+ u +"' data-type='private'><a href='#' data-id='pc_"+ u +"' class='channels_a __private' data-name='" + u + "'>" + u + "</a></li>");
+}
 
 $(".channels_lst").on("click", ".channels_i", function(e) {
     e.preventDefault();
@@ -229,6 +238,7 @@ $(".channels_lst").on("click", ".channels_i", function(e) {
 
     if ($(this).attr("data-type") == "private") {
         currentPurpose = PURPOSE.PRIVATE;
+        currentPrivate = $(this).find(".channels_a").attr("data-name");
 
         var id = "chat_" + $(this).attr("id");
         if(!document.getElementById(id)){
