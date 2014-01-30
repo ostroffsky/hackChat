@@ -152,7 +152,7 @@ $(".channels_lst").on("click", ".channels_i", function(e) {
     activeChatId = $(this).find(".channels_a").attr("data-id");
 
     $(this).siblings().removeClass("__active");
-    $(this).toggleClass("__active");
+    $(this).addClass("__active");
 
     var chat = $("#chats").find(".messages_cell[data-chat=" + name + "]");
     chat.siblings().removeClass("__active");
