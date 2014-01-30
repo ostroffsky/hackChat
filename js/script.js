@@ -58,6 +58,27 @@ function addMessage(msg) {
         if(msg.type == 2 && msg.user != username) {
             addSystemMessage("<"+ msg.user + "> зашел на канал", msg.chat);
             return;
+        } else if(msg.type == 8) {
+            if(msg.user == username) {
+                notification_post(msg.user, {
+                    body: "Вас упоминули в чате",
+                    icon: "http://myhello.tk/img/pic/avatar_" + Math.floor(Math.random() * 67) + 1 + ".png",
+                    tag: "tag",
+                    dir: "ltr",
+                    lang: "en-US"
+                });
+            }
+
+            return;
+        } else if(msg.type == 9 && msg.user != username) {
+            addSystemMessage("<"+ msg.user + "> ушел с канала", msg.chat);
+
+            $(".members_lst[data-id=" + msg.chat + "]").find(".members_a").each(function(){
+                if($(this).text() == msg.user) {
+                    $(this).parent().remove();
+                }
+            });
+            return;
         } else {
             return;
         }
