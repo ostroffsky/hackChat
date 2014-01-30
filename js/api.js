@@ -94,7 +94,7 @@ function sendMessage(msg) {
     });
 }
 
-function sendPrivateMessage(user, msg) {
+function sendPrivateMessage(user, msg, callback) {
     // draw msg
     addMyMessage(msg);
 
@@ -106,7 +106,7 @@ function sendPrivateMessage(user, msg) {
 
     }, {
         success: function(result) {
-            //console.log(result);
+            callback.success(result);
         },
         error: function(error) {
             alert('Error: ' + error.code + ' ' + error.message);

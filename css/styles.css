@@ -98,6 +98,7 @@ body, html {
 .chat_chanels {
     width: 150px;
     background-color: #f0f0f0;
+    overflow: scroll;
 }
 .messages {
     height: 100%;
