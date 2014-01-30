@@ -33,11 +33,13 @@ if (typeof String.prototype.startsWith != 'function') {
     };
 }
 
-function addSystemMessage(msg) {
+function addSystemMessage(msg, targetId) {
+    targetId = targetId || activeChatId;
+
     var msgHtml = $("<div class='msg __system __red'></div>");
     msgHtml.text(msg);
 
-    var messages = $("#chats").find(".messages_cell[data-id=" + activeChatId + "]");
+    var messages = $("#chats").find(".messages_cell[data-id=" + targetId + "]");
 
     messages.append(msgHtml);
 
@@ -52,6 +54,14 @@ function addMessage(msg) {
     var time = $.format.parseDate(now);
     var timeString = "[" + time.time.time + "]";
 
+    if(msg.type) {
+        if(msg.type == 2 && msg.user != username) {
+            addSystemMessage("<"+ msg.user + "> зашел на канал", msg.chat);
+            return;
+        } else {
+            return;
+        }
+    }
     if(msg.sender != username) {
         var msgHtml = $("<div class='msg'></div>");
 
@@ -148,9 +158,7 @@ textarea.on("keypress", function(e){
         } else if (currentPurpose == PURPOSE.PRIVATE) {
             sendPrivateMessage(username, value, {
                 success: function(chat){
-                    console.log(username);
                     $(".messages_cell.__active").attr("data-chat", chat.objectId);
-
                 }
             });
         }
@@ -189,33 +197,53 @@ $(function(){
 
 $(".channels_lst").on("click", ".channels_i", function(e) {
     e.preventDefault();
+    var chat;
+    var members;
+
+    // пометить канал как прочитанный
+    $(this).find(".channels_a").removeClass("__new");
+
+    // выставить текущий активный канал
+    activeChatId = $(this).find(".channels_a").attr("data-id");
 
     if ($(this).attr("data-type") == "private") {
         currentPurpose = PURPOSE.PRIVATE;
-        var id = "chat_" +$(this).attr("id");
+        var id = "chat_" + $(this).attr("id");
         if(!document.getElementById(id)){
-            $("#chats tr").append("<td class='messages_cell __active' data-id='private' data-chat='noo' id='"+id+"'></td>");
+            var newPc = $("<td class='messages_cell' id='"+id+"'></td>");
+            $("#chats tr").append(newPc);
         }
+
+        chat = $("#" + id);
+        chat.addClass("__active");
+
+        // спрятать участников чата
+        members = $(".chat_members .members_lst");
+        members.removeClass("__active");
+    } else {
+        var name = $(this).find(".channels_a").text();
+        chat = $("#chats").find(".messages_cell[data-chat=" + name + "]");
+
+        // показать нужных участников чата
+        members = $(".chat_members").find(".members_lst[data-id=" + activeChatId + "]");
+        members.siblings().removeClass("__active");
+        members.addClass("__active");
     }
 
-    $(this).find(".channels_a").removeClass("__new");
-    var name = $(this).find(".channels_a").text();
 
-    activeChatId = $(this).find(".channels_a").attr("data-id");
-
+    // выделить активный канал
     $(this).siblings().removeClass("__active");
     $(this).addClass("__active");
 
-    var chat = $("#chats").find(".messages_cell[data-chat=" + name + "]");
+    // показать нужный контейнер с сообщениями
     chat.siblings().removeClass("__active");
     chat.addClass("__active");
 
-    var members = $(".chat_members").find(".members_lst[data-id=" + activeChatId + "]");
-    members.siblings().removeClass("__active");
-    members.addClass("__active");
 
+    // проскроллить
     $(".chat_messages").scrollTop($(".chat_messages")[0].scrollHeight);
 
+    // поставить фокус в поле ввода
     textarea.trigger("focus");
 });
 
