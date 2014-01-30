@@ -60,6 +60,11 @@ function addMessage(msg) {
             msgTxt = $("<br/><img src='img/stickers/stick_1_" + id + ".png'/>");
             msgHtml.text(timeString + " <" + msg.sender + "> ").append(msgTxt);
 
+        } else if (msgTxt.startsWith("[geo_")) {
+            var coords = msgTxt.split("[geo_")[1].split("]")[0].split(",");
+            msgTxt = $("<br/><img src='http://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x200&markers=color:blue%7Clabel:S%7C" + coords[0] + "," + coords[1] + "&sensor=false'/>");
+            msgHtml.text(timeString + " <" + msg.sender + "> ").append(msgTxt);
+
         } else {
             msgHtml.text(timeString + " <" + msg.sender + "> " + msgTxt);
 
