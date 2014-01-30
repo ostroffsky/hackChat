@@ -51,7 +51,7 @@ function chatList() {
                 $(".channels_lst").append(html);
 
                 if (!chatLoaded) {
-                    var chatHtml = $("<td class='messages_cell' data-id='" + chatId + "' data-chat='" + chat + "'></td>");
+                    var chatHtml = $("<td class='messages_cell' data-id='" + chatId + "' data-chat='#" + chat + "'></td>");
                     $("#chats tr").append(chatHtml);
                     joinChat(chatId, userId);
 
@@ -84,6 +84,26 @@ function sendMessage(msg) {
         'chatId': activeChatId, //"t9WPRgM77Q",
         'msg':  msg,
         'userId': userId
+    }, {
+        success: function(result) {
+            //console.log(result);
+        },
+        error: function(error) {
+            alert('Error: ' + error.code + ' ' + error.message);
+        }
+    });
+}
+
+function sendPrivateMessage(user, msg) {
+    // draw msg
+    addMyMessage(msg);
+
+    // send msg
+    Parse.Cloud.run('sendPrivateMessage', {
+        'msg':  msg,
+        'senderId': userId,
+        'receiverName': user
+
     }, {
         success: function(result) {
             //console.log(result);
