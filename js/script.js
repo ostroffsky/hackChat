@@ -62,6 +62,10 @@ function addMessage(msg) {
 
         } else {
             msgHtml.text(timeString + " <" + msg.sender + "> " + msgTxt);
+
+            if(msg.file) {
+                msgHtml.append("<br/><img src='" + msg.file + "'/>");
+            }
         }
 
 
