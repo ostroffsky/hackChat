@@ -44,9 +44,8 @@ function chatList() {
             $(".channels_lst").empty();
 
             for (var i = 0; i < result.length; i++) {
-                var chat = result[i].attributes.name;
+                var chat = result[i].attributes.name.trim();
                 var chatId = result[i].id;
-
                 var html = $("<li class='channels_i'><a href='#' class='channels_a __channel' data-id='" + chatId + "'>" + chat + "</a></li>");
                 $(".channels_lst").append(html);
 
