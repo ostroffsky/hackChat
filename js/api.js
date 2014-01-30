@@ -22,7 +22,7 @@ function getChatMembers(chatId) {
             }
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            //alert('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
@@ -33,7 +33,7 @@ function joinChat(chatId, id) {
             //alert(JSON.stringify(result));
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            //alert('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
@@ -69,7 +69,7 @@ function chatList() {
             chatLoaded = true;
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            //alert('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
@@ -88,7 +88,7 @@ function sendMessage(msg) {
             //console.log(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            //alert('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
@@ -108,7 +108,7 @@ function sendPrivateMessage(user, msg, callback) {
             callback.success(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            //alert('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
@@ -137,17 +137,12 @@ function checkLogin(user) {
 function login(user, password) {
     Parse.Cloud.run('login', {'username':user,'password':password}, {
         success: function(result) {
-            //console.log(result);
-
             currentPurpose = PURPOSE.MESSAGE;
             textarea.attr("placeholder", RES.MESSAGE);
 
             // set cookie
             $.cookie('userId', result.id);
             $.cookie('username', user);
-
-            // join chat
-            //joinChat("t9WPRgM77Q", userId);
         },
         error: function(error) {
             addSystemMessage('Error: ' + error.code + ' ' + error.message);
@@ -164,6 +159,9 @@ function register(user, password) {
 
             currentPurpose = PURPOSE.MESSAGE;
             textarea.attr("placeholder", RES.MESSAGE);
+
+            $.cookie('userId', userId);
+            $.cookie('username', user);
         },
         error: function(error) {
             addSystemMessage('Error: ' + error.code + ' ' + error.message);
@@ -177,7 +175,7 @@ function createChat(chatName) {
             //alert(result);
         },
         error: function(error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            //alert('Error: ' + error.code + ' ' + error.message);
         }
     });
 }
