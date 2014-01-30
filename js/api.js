@@ -7,11 +7,17 @@
 function getChatMembers(chatId) {
     Parse.Cloud.run('chatMembers', {"chatId":chatId}, {
         success: function(result) {
+            var container = $("<ul class='members_lst' data-id='" + chatId + "'></ul>");
+
             for (var i = 0; i < result.length; i++) {
                 var name = result[i].attributes.name;
 
                 var html = $("<li class='members_i'><a href='#' class='members_a'>@" + name + "</a></li>");
-                $(".members_lst").append(html);
+                container.append(html)
+
+                $(".chat_members").append(container);
+
+                $(".channels_lst .channels_i:first").trigger("click");
             }
         },
         error: function(error) {
@@ -36,9 +42,25 @@ function chatList() {
         success: function(result) {
             for (var i = 0; i < result.length; i++) {
                 var chat = result[i].attributes.name;
+                var chatId = result[i].id;
 
-                var html = $("<li class='channels_i'><a href='#' class='channels_a __channel'>" + chat + "</a></li>");
+                var html = $("<li class='channels_i'><a href='#' class='channels_a __channel' data-id='" + chatId + "'>" + chat + "</a></li>");
                 $(".channels_lst").append(html);
+
+                var chatHtml = $("<td class='messages_cell' data-id='" + chatId + "' data-chat='" + chat + "'></td>");
+                $("#chats tr").append(chatHtml);
+
+                joinChat(chatId, userId);
+
+                pubnub.subscribe({
+                    channel: chatId,
+                    message: addMessage
+                });
+
+                getChatMembers(chatId);
+
+                restoreHistory();
+
             }
         },
         error: function(error) {
@@ -53,7 +75,7 @@ function sendMessage(msg) {
 
     // send msg
     Parse.Cloud.run('addMsg', {
-        'chatId': "t9WPRgM77Q",
+        'chatId': activeChatId, //"t9WPRgM77Q",
         'msg':  msg,
         'userId': userId
     }, {
@@ -100,7 +122,7 @@ function login(user, password) {
             $.cookie('username', user);
 
             // join chat
-            joinChat("t9WPRgM77Q", userId);
+            //joinChat("t9WPRgM77Q", userId);
         },
         error: function(error) {
             addSystemMessage('Error: ' + error.code + ' ' + error.message);

@@ -39,6 +39,7 @@ body, html {
     height: 39px;
     width: 39px;
     display: inline-block;
+    vertical-align: top;
     background-position: 50%;
     background-repeat: no-repeat;
     overflow: hidden;
@@ -110,6 +111,10 @@ body, html {
 }
 .messages_cell {
     vertical-align: bottom;
+    display: none;
+}
+.messages_cell.__active {
+    display: table-cell;
 }
 /* /container */
 
@@ -117,8 +122,12 @@ body, html {
 /* members */
 .members_lst {
     list-style-type: none;
+    display: none;
     padding: 0;
     margin: 5px;
+}
+.members_lst.__active {
+    display: block;
 }
 .members_i {}
 
@@ -144,6 +153,7 @@ body, html {
 }
 .channels_i {
     padding: 4px 6px;
+    border: 1px solid transparent;
 }
 .channels_i.__active {
     border: 1px solid #dcdcdc;

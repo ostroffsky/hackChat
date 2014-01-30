@@ -1,6 +1,7 @@
 var userId;
 var username;
 var currentPurpose;
+var activeChatId;
 var textarea = $("#textarea");
 
 var RES = {
@@ -34,7 +35,7 @@ function addSystemMessage(msg) {
     var msgHtml = $("<div class='msg __system __red'></div>");
     msgHtml.text(msg);
 
-    var messages = $("#messages");
+    var messages = $("#chats").find(".messages_cell[data-id=" + activeChatId + "]");
 
     messages.append(msgHtml);
 
@@ -44,6 +45,8 @@ function addSystemMessage(msg) {
 
 }
 function addMessage(msg) {
+    var targetChatId = msg.chat;
+
     if(msg.sender != username) {
         var msgHtml = $("<div class='msg'></div>");
 
@@ -58,7 +61,7 @@ function addMessage(msg) {
         }
 
 
-        var messages = $("#messages");
+        var messages = $("#chats").find(".messages_cell[data-id=" + targetChatId + "]");
 
         messages.append(msgHtml);
 
@@ -72,26 +75,35 @@ function addMyMessage(msg) {
     var msgHtml = $("<div class='msg __green'></div>");
     msgHtml.text("<" + username + "> " + msg);
 
-    var messages = $("#messages");
+    var messages = $("#chats").find(".messages_cell[data-id=" + activeChatId + "]");
 
     messages.append(msgHtml);
 
     $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
 
+
     collectHistory();
 }
 
 function collectHistory() {
-    var history = $("#messages").html();
-    $.jStorage.set("history", history);
+    $("#chats .messages_cell").each(function(){
+        var chatId = $(this).attr("data-id");
+        $.jStorage.set(chatId, $(this).html());
+    });
 }
+function restoreHistory() {
+    $("#chats .messages_cell").each(function(){
+        var chatId = $(this).attr("data-id");
 
+        var storedHistory = $($.jStorage.get(chatId));
+        storedHistory.find(".history .history .history").remove();
 
+        var history = $("<div class='history'></div>");
+        history.append(storedHistory);
 
-pubnub.subscribe({
-    channel: 't9WPRgM77Q',
-    message: addMessage
-});
+        $(this).html(history)
+    });
+}
 
 textarea.on("keypress", function(e){
     if(e.keyCode === 13) {
@@ -125,20 +137,30 @@ $(function(){
         userId = cookieId;
         username = cookieUsername;
         currentPurpose = PURPOSE.MESSAGE;
-
-        joinChat("t9WPRgM77Q", userId);
     }
 
     chatList();
-    getChatMembers("t9WPRgM77Q");
-
-    var storedHistory = $($.jStorage.get("history"));
-    storedHistory.find(".history .history .history").remove();
-    var history = $("<div class='history'></div>");
-    history.append(storedHistory);
-
-    $("#messages").html(history);
 
     $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
 
+});
+
+$(".channels_lst").on("click", ".channels_i", function(e) {
+    e.preventDefault();
+    var name = $(this).find(".channels_a").text();
+
+    activeChatId = $(this).find(".channels_a").attr("data-id");
+
+    $(this).siblings().removeClass("__active");
+    $(this).toggleClass("__active");
+
+    var chat = $("#chats").find(".messages_cell[data-chat=" + name + "]");
+    chat.siblings().removeClass("__active");
+    chat.addClass("__active");
+
+    var members = $(".chat_members").find(".members_lst[data-id=" + activeChatId + "]");
+    members.siblings().removeClass("__active");
+    members.addClass("__active");
+
+    textarea.trigger("focus");
 });
