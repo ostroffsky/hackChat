@@ -234,3 +234,13 @@ body, html {
     opacity: .5;
 }
 /* /login */
+
+.__loading {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-image: url(../img/ic_loading.gif);
+}
+
+.attach {
+    height: 200px;
+}

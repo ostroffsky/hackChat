@@ -64,7 +64,7 @@ function addMessage(msg) {
             msgHtml.text(timeString + " <" + msg.sender + "> " + msgTxt);
 
             if(msg.file) {
-                msgHtml.append("<br/><img src='" + msg.file + "'/>");
+                msgHtml.append("<br/><img class='attach' src='" + msg.file + "'/>");
             }
         }
 
@@ -155,9 +155,7 @@ $(function(){
         currentPurpose = PURPOSE.MESSAGE;
     }
 
-//    var timeOut = setInterval(function() {
-        chatList();
-//    },1000);
+    chatList();
 
     $(".chat_messages").scrollTop($(".chat_messages")[0].scrollHeight);
 
