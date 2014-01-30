@@ -245,4 +245,4 @@ body, html {
     height: 200px;
 }
 
-.__new { font-weight: bold; }
+.channels_a.__channel.__new { background-image: url(../img/ic/ico_w_channel_a.png); color: red; }
