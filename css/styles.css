@@ -244,3 +244,5 @@ body, html {
 .attach {
     height: 200px;
 }
+
+.__new { font-weight: bold; }

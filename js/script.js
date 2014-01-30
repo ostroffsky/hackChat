@@ -75,6 +75,7 @@ function addMessage(msg) {
 
 
         var messages = $("#chats").find(".messages_cell[data-id=" + targetChatId + "]");
+        $(".channels_a[data-id=" + targetChatId + "]").addClass("__new");
 
         messages.append(msgHtml);
 
@@ -168,6 +169,7 @@ $(function(){
 
 $(".channels_lst").on("click", ".channels_i", function(e) {
     e.preventDefault();
+    $(this).find(".channels_a").removeClass("__new");
     var name = $(this).find(".channels_a").text();
 
     activeChatId = $(this).find(".channels_a").attr("data-id");
