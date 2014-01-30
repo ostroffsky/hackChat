@@ -9,13 +9,13 @@ var RES = {
     PASSWORD: "Введите пароль",
     MESSAGE: "Введите сообщение"
 };
+
 var PURPOSE = {
     LOGIN: "login",
     PASSWORD: "password",
     REGISTER: "register",
     MESSAGE: "message"
 };
-
 
 var pubnub = PUBNUB.init({
     publish_key: 'pub-c-4d13827f-f0c2-4b5a-b85d-3f3a7021196b',
@@ -42,7 +42,6 @@ function addSystemMessage(msg) {
     $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
 
     collectHistory();
-
 }
 
 function addMessage(msg) {
@@ -121,6 +120,9 @@ function restoreHistory() {
 textarea.on("keypress", function(e){
     if(e.keyCode === 13) {
         e.preventDefault();
+
+        if ($(this).val() == "") { return;}
+
         var value = $(this).val();
 
         // send message
