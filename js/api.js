@@ -8,6 +8,7 @@ function getChatMembers(chatId) {
     Parse.Cloud.run('chatMembers', {"chatId":chatId}, {
         success: function(result) {
             var container = $("<ul class='members_lst' data-id='" + chatId + "'></ul>");
+            $(".chat_members .members_lst[data-id='" + chatId + "']").remove();
 
             for (var i = 0; i < result.length; i++) {
                 var name = result[i].attributes.name;
@@ -40,6 +41,8 @@ function joinChat(chatId, id) {
 function chatList() {
     Parse.Cloud.run('chatList', {}, {
         success: function(result) {
+            $(".channels_lst").empty();
+
             for (var i = 0; i < result.length; i++) {
                 var chat = result[i].attributes.name;
                 var chatId = result[i].id;
@@ -47,21 +50,24 @@ function chatList() {
                 var html = $("<li class='channels_i'><a href='#' class='channels_a __channel' data-id='" + chatId + "'>" + chat + "</a></li>");
                 $(".channels_lst").append(html);
 
-                var chatHtml = $("<td class='messages_cell' data-id='" + chatId + "' data-chat='" + chat + "'></td>");
-                $("#chats tr").append(chatHtml);
+                if (!chatLoaded) {
+                    var chatHtml = $("<td class='messages_cell' data-id='" + chatId + "' data-chat='" + chat + "'></td>");
+                    $("#chats tr").append(chatHtml);
+                    joinChat(chatId, userId);
 
-                joinChat(chatId, userId);
+                    pubnub.subscribe({
+                        channel: chatId,
+                        message: addMessage
+                    });
 
-                pubnub.subscribe({
-                    channel: chatId,
-                    message: addMessage
-                });
+                    restoreHistory();
+                }
+
 
                 getChatMembers(chatId);
-
-                restoreHistory();
-
             }
+
+            chatLoaded = true;
         },
         error: function(error) {
             alert('Error: ' + error.code + ' ' + error.message);

@@ -2,6 +2,7 @@ var userId;
 var username;
 var currentPurpose;
 var activeChatId;
+var chatLoaded = false;
 var textarea = $("#textarea");
 
 var RES = {
@@ -56,7 +57,7 @@ function addMessage(msg) {
         var msgTxt = msg.text;
         if (msgTxt.startsWith("[sticker_")) {
             var id = msgTxt.split("[sticker_")[1].split("]")[0];
-            msgTxt = $("<img src='img/stickers/stick_1_" + id + ".png'/>");
+            msgTxt = $("<br/><img src='img/stickers/stick_1_" + id + ".png'/>");
             msgHtml.text(timeString + " <" + msg.sender + "> ").append(msgTxt);
 
         } else {
@@ -154,9 +155,11 @@ $(function(){
         currentPurpose = PURPOSE.MESSAGE;
     }
 
-    chatList();
+//    var timeOut = setInterval(function() {
+        chatList();
+//    },1000);
 
-    $(".chat_messages").animate({ scrollTop: $(".chat_messages")[0].scrollHeight}, 1000);
+    $(".chat_messages").scrollTop($(".chat_messages")[0].scrollHeight);
 
 });
 
@@ -176,6 +179,8 @@ $(".channels_lst").on("click", ".channels_i", function(e) {
     var members = $(".chat_members").find(".members_lst[data-id=" + activeChatId + "]");
     members.siblings().removeClass("__active");
     members.addClass("__active");
+
+    $(".chat_messages").scrollTop($(".chat_messages")[0].scrollHeight);
 
     textarea.trigger("focus");
 });
