@@ -75,7 +75,10 @@ function addMessage(msg) {
 
 
         var messages = $("#chats").find(".messages_cell[data-id=" + targetChatId + "]");
-        $(".channels_a[data-id=" + targetChatId + "]").addClass("__new");
+        var tab = $(".channels_a[data-id=" + targetChatId + "]");
+        if(!tab.hasClass("__active")) {
+            tab.addClass("__new");
+        }
 
         messages.append(msgHtml);
 
