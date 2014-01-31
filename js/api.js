@@ -85,12 +85,31 @@ function sendMessage(msg) {
 
     // send msg
     Parse.Cloud.run('addMsg', {
-        'chatId': activeChatId, //"t9WPRgM77Q",
+        'chatId': activeChatId,
         'msg':  msg,
         'userId': userId
     }, {
         success: function(result) {
             //console.log(result);
+        },
+        error: function(error) {
+            //alert('Error: ' + error.code + ' ' + error.message);
+        }
+    });
+}
+
+function getChatMessages(chatId, limit) {
+    Parse.Cloud.run('getChatMessages', {
+        'userId': userId,
+        'chatId': chatId,
+        'limit':  limit
+    }, {
+        success: function(result) {
+            result.reverse();
+
+            for (var i = 0; i < result.length; i++) {
+                $("#chat_pc_" + result[i].attributes.sender.attributes.name).append("<div class='msg'>&lt;" + result[i].attributes.sender.attributes.name + "&gt; " + result[i].attributes.text + "</div>");
+            }
         },
         error: function(error) {
             //alert('Error: ' + error.code + ' ' + error.message);

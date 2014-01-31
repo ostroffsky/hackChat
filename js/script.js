@@ -180,7 +180,14 @@ textarea.on("keypress", function(e){
         } else if (currentPurpose == PURPOSE.PRIVATE) {
             sendPrivateMessage(currentPrivate, value, {
                 success: function(chat){
-                    //$(".messages_cell.__active").attr("data-chat", chat.objectId);
+                    $("#chat_pc_" + currentPrivate).attr("data-id", chat.id);
+                    currentPurpose = PURPOSE.MESSAGE;
+                    activeChatId = chat.id;
+
+                    pubnub.subscribe({
+                        channel: chat.id,
+                        message: addMessage
+                    });
                 }
             });
         }
@@ -207,6 +214,7 @@ $(function(){
             message: function(m){
                 if (m.type) {
                     if(m.type == 1) {
+                        getChatMessages(m.chat, 5);
                         addChat(m.user, m.chat);
                     }
                 }
